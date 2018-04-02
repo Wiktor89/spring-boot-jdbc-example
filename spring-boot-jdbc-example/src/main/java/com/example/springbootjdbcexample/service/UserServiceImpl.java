@@ -27,7 +27,7 @@ public class UserServiceImpl implements IService {
 
     @Override
     public User update(Integer id, User userDetails) {
-        return dao.update (id,userDetails);
+        return dao.update (id, userDetails);
     }
 
     @Override
