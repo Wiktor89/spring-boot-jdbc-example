@@ -10,20 +10,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@Repository("jdbcTemp")
+@Repository ("jdbcTemp")
 public class JDBCTemplateDAOImpl implements IDAO {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public void add(User user) {
+    public void add (User user) {
         String sql = "INSERT INTO test_users (login, password) VALUES (?,?)";
         jdbcTemplate.update (sql, user.getLoggin (), user.getPassword ());
     }
 
     @Override
-    public User getUser(Integer id) {
+    public User getUser (Integer id) {
         String sql = "SELECT * FROM test_users WHERE id = ?";
         return jdbcTemplate.queryForObject (sql, new Object[]{id}, (resultSet, i) -> {
             User user = new User ();
@@ -34,20 +34,20 @@ public class JDBCTemplateDAOImpl implements IDAO {
     }
 
     @Override
-    public User update(Integer id, User userDetails) {
+    public User update (Integer id, User userDetails) {
         String sql = "UPDATE test_users SET login = ?,password = ? WHERE id = ?";
         jdbcTemplate.update (sql, userDetails.getLoggin (), userDetails.getPassword (), id);
         return getUser (id);
     }
 
     @Override
-    public void delete(Integer id) {
+    public void delete (Integer id) {
         String sql = "DELETE FROM test_users WHERE id = ?";
         jdbcTemplate.update (sql, id);
     }
 
     @Override
-    public List<User> getUsers() {
+    public List<User> getUsers () {
         String sql = "SELECT * FROM test_users";
         List<Map<String, Object>> list = jdbcTemplate.queryForList (sql);
         List<User> userList = new ArrayList<> ();

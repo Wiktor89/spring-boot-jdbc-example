@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+@Service("userService")
 public class UserServiceImpl implements IService {
 
     @Autowired
@@ -16,8 +16,9 @@ public class UserServiceImpl implements IService {
     private IDAO dao;
 
     @Override
-    public void add(User user) {
+    public Boolean add(User user) {
         dao.add (user);
+        return Boolean.TRUE;
     }
 
     @Override
@@ -31,8 +32,9 @@ public class UserServiceImpl implements IService {
     }
 
     @Override
-    public void delete(Integer id) {
+    public Boolean delete(Integer id) {
         dao.delete (id);
+        return Boolean.TRUE;
     }
 
     @Override
