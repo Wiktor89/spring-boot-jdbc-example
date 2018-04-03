@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -53,8 +54,10 @@ public class JDBCTemplateDAOImpl implements IDAO {
         List<User> userList = new ArrayList<> ();
         for (Map<String, Object> row : list) {
             User user = new User ();
+            user.setId ((Integer) row.get ("id"));
             user.setLoggin ((String) row.get ("login"));
             user.setPassword ((String) row.get ("password"));
+            user.setCreateDate ((Date) row.get ("createdate"));
             userList.add (user);
         }
         return userList;

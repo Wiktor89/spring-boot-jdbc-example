@@ -1,6 +1,7 @@
 package com.example.springbootjdbcexample.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -22,6 +23,7 @@ public class User {
 
     @Temporal (TemporalType.TIMESTAMP)
     @Column (name = "createdate", nullable = false)
+    @CreationTimestamp
     private Date createDate;
 
     public User (Integer id, String loggin, String password) {
