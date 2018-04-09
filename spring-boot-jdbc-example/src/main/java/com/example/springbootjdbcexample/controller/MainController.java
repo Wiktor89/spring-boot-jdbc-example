@@ -15,7 +15,7 @@ import java.util.List;
 public class MainController {
 
     @Autowired
-    @Qualifier ("userServiceCustom")
+    @Qualifier ("service")
     private IService service;
 
     @PostMapping (value = Url.POST_USER)

@@ -4,14 +4,12 @@ import com.example.springbootjdbcexample.dao.IDAO;
 import com.example.springbootjdbcexample.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-@Repository ("jdbcTemp")
 public class JDBCTemplateDAOImpl implements IDAO {
 
     @Autowired

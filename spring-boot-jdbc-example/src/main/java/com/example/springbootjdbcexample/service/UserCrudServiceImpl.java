@@ -3,11 +3,9 @@ package com.example.springbootjdbcexample.service;
 import com.example.springbootjdbcexample.dao.CustomRepository;
 import com.example.springbootjdbcexample.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service ("userServiceCustom")
 public class UserCrudServiceImpl implements IService {
 
     @Autowired
@@ -21,7 +19,7 @@ public class UserCrudServiceImpl implements IService {
 
     @Override
     public User getUser (Integer id) {
-        return repository.findOne (id);
+        return repository.findById (id).orElse (new User ());
     }
 
     @Override
@@ -32,7 +30,7 @@ public class UserCrudServiceImpl implements IService {
 
     @Override
     public Boolean delete (Integer id) {
-        repository.delete (id);
+        repository.deleteById (id);
         return Boolean.TRUE;
     }
 

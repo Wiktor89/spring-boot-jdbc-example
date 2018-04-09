@@ -5,10 +5,10 @@ import com.example.springbootjdbcexample.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
-import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,22 +18,22 @@ import java.util.List;
 import static com.example.springbootjdbcexample.dao.jdbc.UserDAOImpl.RowMapper.getUserMapper;
 import static com.example.springbootjdbcexample.dao.jdbc.UserDAOImpl.RowMapper.getUsersMapper;
 
-@Repository("jdbcTemplate")
 public class UserDAOImpl extends JdbcDaoSupport implements IDAO {
 
     @Autowired
-    @Qualifier("dataSource")
+    @Qualifier ("dataSource")
     private DataSource dataSource;
 
     @PostConstruct
-    private void init() {
+    private void init () {
         setDataSource (dataSource);
     }
 
     @Override
-    public void add(User user) {
+    public void add (User user) {
         String sql = "INSERT INTO test_users (login, password) VALUES (?,?)";
-        try (PreparedStatement statement = getDataSource ().getConnection ().prepareStatement (sql)) {
+        try (Connection connection = getDataSource ().getConnection ();
+             PreparedStatement statement = connection.prepareStatement (sql)) {
             statement.setString (1, user.getLoggin ());
             statement.setString (2, user.getPassword ());
             statement.execute ();
@@ -43,10 +43,11 @@ public class UserDAOImpl extends JdbcDaoSupport implements IDAO {
     }
 
     @Override
-    public User getUser(Integer id) {
+    public User getUser (Integer id) {
         User user = null;
         String sql = "SELECT * FROM test_users WHERE id = ?";
-        try (PreparedStatement statement = getDataSource ().getConnection ().prepareStatement (sql)) {
+        try (Connection connection = getDataSource ().getConnection ();
+             PreparedStatement statement = connection.prepareStatement (sql)) {
             statement.setInt (1, id);
             user = getUserMapper (statement.executeQuery ());
         } catch (Exception e) {
@@ -56,10 +57,11 @@ public class UserDAOImpl extends JdbcDaoSupport implements IDAO {
     }
 
     @Override
-    public User update(Integer id, User userDetails) {
+    public User update (Integer id, User userDetails) {
         User user = null;
         String sql = "UPDATE test_users SET login = ?,password = ? WHERE id = ?";
-        try (PreparedStatement statement = getDataSource ().getConnection ().prepareStatement (sql)) {
+        try (Connection connection = getDataSource ().getConnection ();
+             PreparedStatement statement = connection.prepareStatement (sql)) {
             statement.setString (1, userDetails.getLoggin ());
             statement.setString (2, userDetails.getPassword ());
             statement.setInt (3, id);
@@ -72,9 +74,10 @@ public class UserDAOImpl extends JdbcDaoSupport implements IDAO {
     }
 
     @Override
-    public void delete(Integer id) {
+    public void delete (Integer id) {
         String sql = "DELETE FROM test_users WHERE id = ?";
-        try (PreparedStatement statement = getDataSource ().getConnection ().prepareStatement (sql)) {
+        try (Connection connection = getDataSource ().getConnection ();
+             PreparedStatement statement = connection.prepareStatement (sql)) {
             statement.setInt (1, id);
             statement.executeQuery ();
         } catch (Exception e) {
@@ -83,10 +86,11 @@ public class UserDAOImpl extends JdbcDaoSupport implements IDAO {
     }
 
     @Override
-    public List<User> getUsers() {
+    public List<User> getUsers () {
         List<User> userList = null;
         String sql = "SELECT * FROM test_users";
-        try (PreparedStatement statement = getDataSource ().getConnection ().prepareStatement (sql)) {
+        try (Connection connection = getDataSource ().getConnection ();
+             PreparedStatement statement = connection.prepareStatement (sql)) {
             userList = getUsersMapper (statement.executeQuery ());
         } catch (Exception e) {
             e.printStackTrace ();
@@ -96,7 +100,7 @@ public class UserDAOImpl extends JdbcDaoSupport implements IDAO {
 
     static class RowMapper {
 
-        static User getUserMapper(ResultSet resultSet) {
+        static User getUserMapper (ResultSet resultSet) {
             User user = null;
             try {
                 while (resultSet.next ()) {
@@ -111,7 +115,7 @@ public class UserDAOImpl extends JdbcDaoSupport implements IDAO {
             return user;
         }
 
-        static List<User> getUsersMapper(ResultSet resultSet) {
+        static List<User> getUsersMapper (ResultSet resultSet) {
             List<User> userList = new ArrayList<> ();
             try {
                 while (resultSet.next ()) {

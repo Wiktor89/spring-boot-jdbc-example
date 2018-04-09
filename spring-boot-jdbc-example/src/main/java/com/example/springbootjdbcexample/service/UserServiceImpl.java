@@ -4,15 +4,13 @@ import com.example.springbootjdbcexample.dao.IDAO;
 import com.example.springbootjdbcexample.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service("userService")
 public class UserServiceImpl implements IService {
 
     @Autowired
-    @Qualifier("jdbcTemp")
+    @Qualifier("template")
     private IDAO dao;
 
     @Override
