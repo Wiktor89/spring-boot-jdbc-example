@@ -2,6 +2,8 @@ package com.example.springbootjdbcexample.dao.jdbc;
 
 import com.example.springbootjdbcexample.dao.IDAO;
 import com.example.springbootjdbcexample.model.User;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
@@ -19,6 +21,8 @@ import static com.example.springbootjdbcexample.dao.jdbc.UserDAOImpl.RowMapper.g
 import static com.example.springbootjdbcexample.dao.jdbc.UserDAOImpl.RowMapper.getUsersMapper;
 
 public class UserDAOImpl extends JdbcDaoSupport implements IDAO {
+
+    private static final Logger LOGGER = LogManager.getLogger (UserDAOImpl.class);
 
     @Autowired
     @Qualifier ("dataSource")
@@ -38,7 +42,7 @@ public class UserDAOImpl extends JdbcDaoSupport implements IDAO {
             statement.setString (2, user.getPassword ());
             statement.execute ();
         } catch (Exception e) {
-            e.printStackTrace ();
+            LOGGER.debug ("Ошибка ", e);
         }
     }
 
@@ -51,7 +55,7 @@ public class UserDAOImpl extends JdbcDaoSupport implements IDAO {
             statement.setInt (1, id);
             user = getUserMapper (statement.executeQuery ());
         } catch (Exception e) {
-            e.printStackTrace ();
+            LOGGER.debug ("Ошибка ", e);
         }
         return user;
     }
@@ -68,7 +72,7 @@ public class UserDAOImpl extends JdbcDaoSupport implements IDAO {
             statement.executeUpdate ();
             user = getUser (id);
         } catch (Exception e) {
-            e.printStackTrace ();
+            LOGGER.debug ("Ошибка ", e);
         }
         return user;
     }
@@ -81,7 +85,7 @@ public class UserDAOImpl extends JdbcDaoSupport implements IDAO {
             statement.setInt (1, id);
             statement.executeQuery ();
         } catch (Exception e) {
-            e.printStackTrace ();
+            LOGGER.debug ("Ошибка ", e);
         }
     }
 
@@ -93,7 +97,7 @@ public class UserDAOImpl extends JdbcDaoSupport implements IDAO {
              PreparedStatement statement = connection.prepareStatement (sql)) {
             userList = getUsersMapper (statement.executeQuery ());
         } catch (Exception e) {
-            e.printStackTrace ();
+            LOGGER.debug ("Ошибка ", e);
         }
         return userList;
     }
@@ -110,7 +114,7 @@ public class UserDAOImpl extends JdbcDaoSupport implements IDAO {
                     user = new User (id, login, password);
                 }
             } catch (SQLException e) {
-                e.printStackTrace ();
+                LOGGER.debug ("Ошибка ", e);
             }
             return user;
         }
@@ -125,7 +129,7 @@ public class UserDAOImpl extends JdbcDaoSupport implements IDAO {
                     userList.add (new User (id, login, password));
                 }
             } catch (SQLException e) {
-                e.printStackTrace ();
+                LOGGER.debug ("Ошибка ", e);
             }
             return userList;
         }
