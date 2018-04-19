@@ -1,5 +1,8 @@
 package com.example.springbootjdbcexample.test;
 
+import org.bouncycastle.cert.X509CertificateHolder;
+import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -86,15 +89,23 @@ public class App {
         if (file.exists ()) {
             try (InputStream inStream = new FileInputStream (file)) {
                 CertificateFactory factory = CertificateFactory.getInstance ("X.509");
-//                CertificateFactory factory = CertificateFactory.getInstance ("X.509", new BouncyCastleProvider ());
-//                X509Certificate x509Certificate = (X509Certificate) factory.generateCertificate (inStream);
+                Certificate certificate = factory.generateCertificate (inStream);
+                crl = converterX509CertificateOnX509CRL (certificate, inStream);
                 CRL crl1 = factory.generateCRL (inStream);
-                System.out.println ();
             } catch (CertificateException e) {
                 e.printStackTrace ();
             }
         }
         return crl;
+    }
+
+    private X509CRL converterX509CertificateOnX509CRL (Certificate certificate, InputStream inStream) throws IOException, CertificateException {
+        byte[] bytes = new byte[1];
+        JcaX509CertificateConverter jcaX509CertificateConverter = new JcaX509CertificateConverter ();
+        JcaX509CertificateConverter bc = jcaX509CertificateConverter.setProvider ("BC");
+        X509Certificate x509Certificate = bc.getCertificate (new X509CertificateHolder (bytes));
+        return null;
+
     }
 
     private static void definitionValueOfOwner (String key, String value) {
