@@ -31,7 +31,7 @@ public class UserDAOImpl extends JdbcDaoSupport implements IDAO {
 
     @Override
     public void add (User user) {
-        String sql = "INSERT INTO test_users (login, password) VALUES (?,?)";
+        String sql = "INSERT INTO TESTERSJOURNAL_USERS (login, password) VALUES (?,?)";
         try (Connection connection = getDataSource ().getConnection ();
              PreparedStatement statement = connection.prepareStatement (sql)) {
             statement.setString (1, user.getLoggin ());
@@ -45,7 +45,7 @@ public class UserDAOImpl extends JdbcDaoSupport implements IDAO {
     @Override
     public User getUser (Integer id) {
         User user = null;
-        String sql = "SELECT * FROM test_users WHERE id = ?";
+        String sql = "SELECT * FROM TESTERSJOURNAL_USERS WHERE id = ?";
         try (Connection connection = getDataSource ().getConnection ();
              PreparedStatement statement = connection.prepareStatement (sql)) {
             statement.setInt (1, id);
@@ -59,7 +59,7 @@ public class UserDAOImpl extends JdbcDaoSupport implements IDAO {
     @Override
     public User update (Integer id, User userDetails) {
         User user = null;
-        String sql = "UPDATE test_users SET login = ?,password = ? WHERE id = ?";
+        String sql = "UPDATE TESTERSJOURNAL_USERS SET login = ?,password = ? WHERE id = ?";
         try (Connection connection = getDataSource ().getConnection ();
              PreparedStatement statement = connection.prepareStatement (sql)) {
             statement.setString (1, userDetails.getLoggin ());
@@ -75,7 +75,7 @@ public class UserDAOImpl extends JdbcDaoSupport implements IDAO {
 
     @Override
     public void delete (Integer id) {
-        String sql = "DELETE FROM test_users WHERE id = ?";
+        String sql = "DELETE FROM TESTERSJOURNAL_USERS WHERE id = ?";
         try (Connection connection = getDataSource ().getConnection ();
              PreparedStatement statement = connection.prepareStatement (sql)) {
             statement.setInt (1, id);
@@ -88,7 +88,7 @@ public class UserDAOImpl extends JdbcDaoSupport implements IDAO {
     @Override
     public List<User> getUsers () {
         List<User> userList = null;
-        String sql = "SELECT * FROM test_users";
+        String sql = "SELECT * FROM TESTERSJOURNAL_USERS";
         try (Connection connection = getDataSource ().getConnection ();
              PreparedStatement statement = connection.prepareStatement (sql)) {
             userList = getUsersMapper (statement.executeQuery ());

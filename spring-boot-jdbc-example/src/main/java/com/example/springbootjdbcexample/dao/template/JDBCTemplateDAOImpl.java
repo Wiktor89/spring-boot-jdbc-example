@@ -17,13 +17,13 @@ public class JDBCTemplateDAOImpl implements IDAO {
 
     @Override
     public void add (User user) {
-        String sql = "INSERT INTO test_users (login, password) VALUES (?,?)";
+        String sql = "INSERT INTO TESTERSJOURNAL_USERS (login, password) VALUES (?,?)";
         jdbcTemplate.update (sql, user.getLoggin (), user.getPassword ());
     }
 
     @Override
     public User getUser (Integer id) {
-        String sql = "SELECT * FROM test_users WHERE id = ?";
+        String sql = "SELECT * FROM TESTERSJOURNAL_USERS WHERE id = ?";
         return jdbcTemplate.queryForObject (sql, new Object[]{id}, (resultSet, i) -> {
             User user = new User ();
             user.setLoggin (resultSet.getString ("login"));
@@ -34,20 +34,20 @@ public class JDBCTemplateDAOImpl implements IDAO {
 
     @Override
     public User update (Integer id, User userDetails) {
-        String sql = "UPDATE test_users SET login = ?,password = ? WHERE id = ?";
+        String sql = "UPDATE TESTERSJOURNAL_USERS SET login = ?,password = ? WHERE id = ?";
         jdbcTemplate.update (sql, userDetails.getLoggin (), userDetails.getPassword (), id);
         return getUser (id);
     }
 
     @Override
     public void delete (Integer id) {
-        String sql = "DELETE FROM test_users WHERE id = ?";
+        String sql = "DELETE FROM TESTERSJOURNAL_USERS WHERE id = ?";
         jdbcTemplate.update (sql, id);
     }
 
     @Override
     public List<User> getUsers () {
-        String sql = "SELECT * FROM test_users";
+        String sql = "SELECT * FROM TESTERSJOURNAL_USERS";
         List<Map<String, Object>> list = jdbcTemplate.queryForList (sql);
         List<User> userList = new ArrayList<> ();
         for (Map<String, Object> row : list) {
